@@ -5,15 +5,10 @@ class MenuPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Menu'),
+        backgroundColor: Color(0xFFfdc8cd),
       ),
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Text(
-            'Menu Page Content',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
+      body: Center(
+        child: Text('Menu Page Content'),
       ),
     );
   }

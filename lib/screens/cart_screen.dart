@@ -5,15 +5,10 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cart'),
+        backgroundColor: Color(0xFFfdc8cd),
       ),
-      body: Container(
-        color: Colors.pinkAccent,
-        child: Center(
-          child: Text(
-            'Cart Page Content',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
+      body: Center(
+        child: Text('Cart Page Content'),
       ),
     );
   }

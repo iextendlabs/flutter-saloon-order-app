@@ -5,6 +5,7 @@ class CheckBookingPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Check Booking'),
+        backgroundColor: Color(0xFFfdc8cd),
       ),
       body: Center(
         child: Text('Check Booking Page Content'),

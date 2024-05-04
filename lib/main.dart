@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'screens/home_screen.dart';
-import 'screens/my_bottom_navigation_bar.dart';
+import 'components/bottom_navigation_bar.dart';
+
+Color customColor = Color(0xFFfdc8cd);
 
 void main() {
   runApp(MyApp());
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'LipSlay',
       theme: ThemeData(
         primarySwatch: Colors.pink,
-        scaffoldBackgroundColor: Colors.pinkAccent,
+        scaffoldBackgroundColor: customColor,
       ),
       home: MyBottomNavigationBar(),
     );

@@ -27,49 +27,38 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.pinkAccent,
+      bottomNavigationBar: Container(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10.0), // Add top margin after border
+          child: BottomNavigationBar(
+            currentIndex: _currentIndex,
+            onTap: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            items: [
+              buildBottomNavigationBarItem(Icons.home, 'Home'),
+              buildBottomNavigationBarItem(Icons.search, 'Search'),
+              buildBottomNavigationBarItem(Icons.shopping_cart, 'Cart'),
+              buildBottomNavigationBarItem(Icons.favorite, 'Wishlist'),
+              buildBottomNavigationBarItem(Icons.calendar_today, 'Calendar'),
+              buildBottomNavigationBarItem(Icons.menu, 'Menu'),
+            ],
+            selectedItemColor: Colors.black,
+            unselectedItemColor: Colors.grey,
+            backgroundColor: Color(0xFFfdc8cd),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-            backgroundColor: Colors.pinkAccent,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-            backgroundColor: Colors.pinkAccent,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Wishlist',
-            backgroundColor: Colors.pinkAccent,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Calendar',
-            backgroundColor: Colors.pinkAccent,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu),
-            label: 'Menu',
-            backgroundColor: Colors.pinkAccent,
-          ),
-        ],
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.white,
-        backgroundColor: Colors.pinkAccent,
+        ),
       ),
+    );
+  }
+
+  BottomNavigationBarItem buildBottomNavigationBarItem(IconData icon, String label) {
+    return BottomNavigationBarItem(
+      icon: Icon(icon),
+      label: label,
+      backgroundColor: Color(0xFFfdc8cd),
     );
   }
 }

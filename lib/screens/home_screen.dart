@@ -1,140 +1,179 @@
 import 'package:flutter/material.dart';
 import '../components/carousel_slider.dart';
 import '../components/category_grid.dart';
+import '../components/category.dart';
 import '../components/offer_product_card.dart';
-import '../components/bottom_navigation_bar.dart';
-import '../models/category.dart';
-import '../models/offer_product.dart';
+import '../components/staff_card.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class Category {
-  final String title;
-  final String image;
-
-  Category({
-    required this.title,
-    required this.image,
-  });
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
 }
 
-class OfferProduct {
-  final String name;
-  final String image;
-  final double rating;
-  final String price;
-  final String duration;
+class _HomePageState extends State<HomePage> {
+  List<String> images = [];
+  List<Category> categories = [];
+  List<OfferProduct> offerProducts = [];
+  List<Staff> staff = [];
+  bool isLoading = true;
 
-  OfferProduct({
-    required this.name,
-    required this.image,
-    required this.rating,
-    required this.price,
-    required this.duration,
-  });
-}
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
-class HomePage extends StatelessWidget {
-  final List<String> images = [
-    'images/slider/1948121663.png',
-    'images/slider/1948121663.png',
-    'images/slider/1948121663.png',
-  ];
+  Future<void> fetchData() async {
+    final response = await http.get(Uri.parse('https://lipslay.com/AppData.json'));
 
-  final List<Category> categories = [
-    Category(
-      title: 'Bleach & Threading',
-      image: 'images/category/Bleach.png',
-    ),
-    Category(
-      title: 'Facial',
-      image: 'images/category/Facial.png',
-    ),
-    Category(
-      title: 'Hair',
-      image: 'images/category/Hair.png',
-    ),
-    Category(
-      title: 'Henna',
-      image: 'images/category/Henna.png',
-    ),
-    Category(
-      title: 'Makeup',
-      image: 'images/category/Makup.png',
-    ),
-    Category(
-      title: 'Manicure-Pedicure',
-      image: 'images/category/Manicure.png',
-    ),
-    Category(
-      title: 'Henna',
-      image: 'images/category/Henna.png',
-    ),
-    Category(
-      title: 'Makeup',
-      image: 'images/category/Makup.png',
-    ),
-    Category(
-      title: 'Manicure-Pedicure',
-      image: 'images/category/Manicure.png',
-    ),
-  ];
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
 
-  final List<OfferProduct> offerProducts = [
-    OfferProduct(
-      name: 'Anti Acne Facial',
-      image: 'images/product/1693666565.png',
-      rating: 4.5,
-      price: '\AED149.00',
-      duration: '45 MINS',
-    ),
-    OfferProduct(
-      name: 'Asta Berry Gold Facial',
-      image: 'images/product/1693662703.png',
-      rating: 4.0,
-      price: '\AED99.00',
-      duration: '45 MINS',
-    ),
-    OfferProduct(
-      name: 'Asta Berry Whitening Facial',
-      image: 'images/product/1693663354.png',
-      rating: 4.8,
-      price: '\AED99.00',
-      duration: '45 MINS',
-    ),
-  ];
+      List<String> featuredServices = List<String>.from(jsonData['featured_services']);
+
+      setState(() {
+        images = (jsonData['images'] as List<dynamic>).map<String>((item) {
+          final parts = item.split('_');
+          final imageName = parts.last;
+          return 'https://lipslay.com/slider-images/$imageName';
+        }).toList();
+
+        categories = (jsonData['categories'] as List<dynamic>).map<Category>((item) {
+          return Category.fromJson(item);
+        }).toList();
+
+        offerProducts = (jsonData['services'] as List<dynamic>).map<OfferProduct>((item) {
+          if (featuredServices.contains(item['id'].toString())) {
+            return OfferProduct.fromJson(item);
+          } else {
+            // Create a default OfferProduct for non-featured services
+            return OfferProduct(
+              image: '', // Add default values for other properties
+              name: '',
+              rating: 0.0,
+              price: '',
+              discount: '',
+              duration: '',
+            );
+          }
+        }).where((element) => element.image.isNotEmpty).toList(); // Exclude non-featured services
+
+        staff = (jsonData['staffs'] as List<dynamic>).map<Staff>((item) {
+          return Staff.fromJson(item);
+        }).toList();
+
+        isLoading = false; // Set loading to false once data is fetched
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  Widget _buildContent() {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CarouselSliderWidget(images: images),
+          SizedBox(height: 20.0),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            child: ElevatedButton(
+              onPressed: () {
+                // Navigate to Check Booking page
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+                primary: Colors.pink,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              child: Text(
+                'Check Booking',
+                style: TextStyle(fontSize: 16.0, color: Colors.white),
+              ),
+            ),
+          ),
+          _buildSectionTitle('What are you looking for?'), // Title for Offers section
+          CategoryGridWidget(categories: categories),
+          _buildSectionTitle('Time Limited Offers'), // Title for Offers section
+          SizedBox(
+            height: 330.0,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: offerProducts.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: OfferProductCard(offerProduct: offerProducts[index]),
+                );
+              },
+            ),
+          ),
+          _buildSectionTitle('Our Staff'), // Title for Staff section
+          SizedBox(
+            height: 280.0,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: staff.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                  child: StaffCard(staff: staff[index]),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            Icons.extension,
+            color: Colors.pink,
+            size: 20.0,
+          ),
+          SizedBox(width: 10.0),
+          Text(
+            title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text('LipSlay Home Services'),
+          child: Text(
+            'LipSlay Home Services',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
+        backgroundColor: Color(0xFFfdc8cd),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            CarouselSliderWidget(images: images),
-            SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to Check Booking page
-              },
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
-              ),
-              child: Text(
-                'Check Booking',
-                style: TextStyle(fontSize: 18.0),
-              ),
-            ),
-            SizedBox(height: 20.0),
-            CategoryGridWidget(categories: categories),
-            SizedBox(height: 20.0),
-            OfferProductListWidget(offerProducts: offerProducts),
-          ],
-        ),
-      ),
+      body: isLoading
+          ? Center(
+        child: CircularProgressIndicator(),
+      )
+          : _buildContent(),
     );
   }
 }

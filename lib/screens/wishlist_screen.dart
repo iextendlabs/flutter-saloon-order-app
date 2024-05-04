@@ -5,15 +5,10 @@ class WishlistPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Wishlist'),
+        backgroundColor: Color(0xFFfdc8cd),
       ),
-      body: Container(
-        color: Colors.pinkAccent,
-        child: Center(
-          child: Text(
-            'Wishlist Page Content',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
+      body: Center(
+        child: Text('Wishlist Page Content'),
       ),
     );
   }
