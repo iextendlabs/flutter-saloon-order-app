@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saloon/config/api_urls.dart';
 import '../components/carousel_slider.dart';
 import '../components/category_grid.dart';
 import '../components/category.dart';
@@ -6,6 +7,7 @@ import '../components/offer_product_card.dart';
 import '../components/staff_card.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,8 +15,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  Future<void> saveCategories(List<Category> categories) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> categoriesJsonList = categories.map((category) => jsonEncode(category.toJson())).toList();
+    await prefs.setStringList('categories', categoriesJsonList);
+  }
+
+  Future<void> saveServices(List<OfferProduct> services) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> servicesJsonList = services.map((service) => jsonEncode(service.toJson())).toList();
+    await prefs.setStringList('services', servicesJsonList);
+  }
+
   List<String> images = [];
   List<Category> categories = [];
+  List<OfferProduct> allServices = [];
   List<OfferProduct> offerProducts = [];
   List<Staff> staff = [];
   bool isLoading = true;
@@ -26,7 +42,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchData() async {
-    final response = await http.get(Uri.parse('https://lipslay.com/AppData.json'));
+    final response = await http.get(Uri.parse(ApiUrls.appDataUrl));
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
@@ -34,37 +50,46 @@ class _HomePageState extends State<HomePage> {
       List<String> featuredServices = List<String>.from(jsonData['featured_services']);
 
       setState(() {
+
         images = (jsonData['images'] as List<dynamic>).map<String>((item) {
           final parts = item.split('_');
           final imageName = parts.last;
-          return 'https://lipslay.com/slider-images/$imageName';
+          return ApiUrls.baseUrl+'slider-images/$imageName';
         }).toList();
 
         categories = (jsonData['categories'] as List<dynamic>).map<Category>((item) {
           return Category.fromJson(item);
         }).toList();
 
+        allServices = (jsonData['services'] as List<dynamic>).map<OfferProduct>((item) {
+          return OfferProduct.fromJson(item);
+        }).toList();
+
         offerProducts = (jsonData['services'] as List<dynamic>).map<OfferProduct>((item) {
           if (featuredServices.contains(item['id'].toString())) {
             return OfferProduct.fromJson(item);
           } else {
-            // Create a default OfferProduct for non-featured services
             return OfferProduct(
-              image: '', // Add default values for other properties
+              id: item['id'] ?? 0,
+              image: '',
               name: '',
               rating: 0.0,
               price: '',
               discount: '',
               duration: '',
+              categoryId: [],
             );
           }
-        }).where((element) => element.image.isNotEmpty).toList(); // Exclude non-featured services
+        }).where((element) => element.image.isNotEmpty).toList();
 
         staff = (jsonData['staffs'] as List<dynamic>).map<Staff>((item) {
           return Staff.fromJson(item);
         }).toList();
 
-        isLoading = false; // Set loading to false once data is fetched
+        saveCategories(categories);
+        saveServices(allServices);
+
+        isLoading = false;
       });
     } else {
       throw Exception('Failed to load data');
@@ -82,7 +107,7 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.symmetric(horizontal: 20.0),
             child: ElevatedButton(
               onPressed: () {
-                // Navigate to Check Booking page
+
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 15.0),
@@ -97,9 +122,9 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          _buildSectionTitle('What are you looking for?'), // Title for Offers section
+          _buildSectionTitle('What are you looking for?'),
           CategoryGridWidget(categories: categories),
-          _buildSectionTitle('Time Limited Offers'), // Title for Offers section
+          _buildSectionTitle('Time Limited Offers'),
           SizedBox(
             height: 330.0,
             child: ListView.builder(
@@ -113,7 +138,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-          _buildSectionTitle('Our Staff'), // Title for Staff section
+          _buildSectionTitle('Our Staff'),
           SizedBox(
             height: 280.0,
             child: ListView.builder(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saloon/config/api_urls.dart';
 import 'package:saloon/models/RatingStars.dart';
 import 'dart:convert';
 
@@ -18,9 +19,8 @@ class Staff {
   });
 
   factory Staff.fromJson(Map<String, dynamic> json) {
-    String baseUrl = 'https://lipslay.com/staff-images/';
     return Staff(
-      imageUrl: baseUrl + (json['staff']['image'] ?? ""), // Updated imageUrl property
+      imageUrl: json['staff']['image'] ?? "", // Updated imageUrl property
       name: json['name'] ?? "",
       rating: json['staff']['rating'] != null ? double.parse(json['staff']['rating']) : 0.0,
       charges: json['staff']['charges'] ?? "",
@@ -60,7 +60,7 @@ class StaffCard extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
-                image: NetworkImage(staff.imageUrl), // Use NetworkImage for network URLs
+                image: NetworkImage(ApiUrls.baseUrl+'staff-images/' + staff.imageUrl), // Use NetworkImage for network URLs
                 fit: BoxFit.cover,
               ),
             ),

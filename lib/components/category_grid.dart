@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:saloon/screens/search_screen.dart';
 import 'category.dart';
+import 'package:saloon/config/api_urls.dart';
 
 class CategoryGridWidget extends StatelessWidget {
   final List<Category> categories;
@@ -8,7 +10,6 @@ class CategoryGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: GridView.builder(
         shrinkWrap: true,
@@ -25,7 +26,7 @@ class CategoryGridWidget extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CategoryPage(category: categories[index]),
+                  builder: (context) => SearchPage(categoryId: categories[index].id),
                 ),
               );
             },
@@ -37,7 +38,7 @@ class CategoryGridWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: NetworkImage(categories[index].image),
+                      image: NetworkImage(ApiUrls.baseUrl+'service-category-icons/' + categories[index].image),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -62,3 +63,4 @@ class CategoryGridWidget extends StatelessWidget {
     );
   }
 }
+

@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 
 class Category {
+  final int id;
   final String title;
   final String image;
 
-  Category({required this.title, required this.image});
+  Category({required this.id, required this.title, required this.image});
 
   factory Category.fromJson(Map<String, dynamic> json) {
-    // Add your base URL here
-    String baseUrl = 'https://lipslay.com/service-category-icons/'; // Adjust this to match your actual base URL
 
     return Category(
+      id: json['id'] ?? 0, // Assign 0 as default if id is null
       title: json['title'] ?? "",
-      image: baseUrl + json['icon'] ?? "", // Concatenate base URL with image URL from JSON
+      image: json['icon'] ?? "", // Concatenate base URL with image URL from JSON, handle null case
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'image': image,
+    };
+  }
 }
 
 class CategoryPage extends StatelessWidget {

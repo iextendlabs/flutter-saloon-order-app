@@ -1,33 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:saloon/config/api_urls.dart';
 import 'package:saloon/models/RatingStars.dart';
 
 class OfferProduct {
+  final int id;
   final String image;
   final String name;
   final double rating;
   final String price;
   final String discount;
   final String duration;
+  final List<int> categoryId;
 
   OfferProduct({
+    required this.id,
     required this.image,
     required this.name,
     required this.rating,
     required this.price,
     required this.discount,
     required this.duration,
+    required this.categoryId,
   });
 
   factory OfferProduct.fromJson(Map<String, dynamic> json) {
-    String baseUrl = 'https://lipslay.com/service-images/';
+    List<int> categoryIdList = List<int>.from(json['category_id'] ?? []);
     return OfferProduct(
-      image: baseUrl + (json['image'] ?? ''),
+      id: json['id'] ?? 0, // Parse id as integer, defaulting to 0 if null
+      image: json['image'] ?? '',
       name: json['name'] ?? '',
-      rating: json['rating'] != null ? double.parse(json['rating']) : 0.0,
+      rating: json['rating'] != null ? double.parse(json['rating'].toString()) : 0.0,
       price: json['price'] ?? '0',
       discount: json['discount'] ?? '0',
       duration: json['duration'] ?? '',
+      categoryId: categoryIdList,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'image': image,
+      'name': name,
+      'rating': rating,
+      'price': price,
+      'discount': discount,
+      'duration': duration,
+      'category_id': categoryId,
+    };
   }
 }
 
@@ -76,7 +96,7 @@ class OfferProductCard extends StatelessWidget {
                         topRight: Radius.circular(12.0),
                       ),
                       child: Image.network(
-                        offerProduct.image, // Use Image.network instead of Image.asset
+                        ApiUrls.baseUrl+'service-images/' + offerProduct.image, // Use Image.network instead of Image.asset
                         width: 230.0,
                         height: 155.0,
                         fit: BoxFit.cover,

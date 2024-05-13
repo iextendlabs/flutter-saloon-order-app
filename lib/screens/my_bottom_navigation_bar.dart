@@ -16,7 +16,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
 
   final List<Widget> _pages = [
     HomePage(),
-    SearchPage(),
+    SearchPage(categoryId: 0),
     CartPage(),
     WishlistPage(),
     CheckBookingPage(),
