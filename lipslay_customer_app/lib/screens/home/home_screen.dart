@@ -1,14 +1,22 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
+import 'package:lipslay_customer_app/common/widgets/staff_item.dart';
+
 import 'package:lipslay_customer_app/screens/home/widgets/carousel_slider.dart';
 import 'package:lipslay_customer_app/utils/constants/sizes.dart';
 import 'package:lipslay_customer_app/utils/constants/text_strings.dart';
-import 'package:lipslay_customer_app/utils/device/device_utility.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../common/components/categories_grid.dart';
+import '../../common/components/services_offer.dart';
+import '../../common/components/statff_list.dart';
 import '../../common/widgets/button.dart';
 import '../../common/widgets/category_item.dart';
+import '../../common/widgets/service_item.dart';
 import '../../controllers/data_controller.dart';
+import '../../models/staff.dart';
 import '../../utils/constants/colors.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,18 +28,31 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(TSizes.appBarHeight),
+        preferredSize: Size.fromHeight(TSizes.appBarHeight.h),
         child: AppBar(
-
           backgroundColor: TColors.primary,
-          title: const Center(child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(TTexts.appBarTitle, style: TextStyle(fontSize: TSizes.fontSizeXlg),),
-              Text(TTexts.appBarDescription, style: TextStyle(fontSize: TSizes.fontSizeMd),),
-
-            ],
-          )),
+          flexibleSpace: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  TTexts.appBarTitle,
+                  style: TextStyle(fontSize: TSizes.fontSizeXlg),
+                ),
+                Text(
+                  TTexts.appBarDescription,
+                  style: TextStyle(fontSize: TSizes.fontSizeMd),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            IconButton(onPressed: (){}, icon: Icon(Icons.notifications_active_outlined,size: 34,)),
+            SizedBox(width: 12,)
+          ],
         ),
       ),
       body: SingleChildScrollView(
@@ -49,21 +70,43 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: TDeviceUtils.isPhone()? 3 : 4, // Maximum 3 columns5
-                  mainAxisExtent: TSizes.gridTileSize,
-                ),
-                itemCount: controller.categories.length,
-                itemBuilder: (context, index) {
-                  return CategoryItem(category: controller.categories[index]);
-                },
+            CategoriesGrid(categories: controller.categories),
+            const SizedBox(height: TSizes.spaceBtwItems),
+            const Padding(
+              padding: EdgeInsets.only(left: TSizes.lg),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.local_offer, size: 32,),
+                  SizedBox(width: 10,),
+                  Text(
+                    'Offers',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
             ),
+            ServicesOffer(products: controller.offerProducts),
+            const SizedBox(height: TSizes.spaceBtwItems),
+            const Padding(
+              padding: EdgeInsets.only(left: TSizes.lg),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.people, size: 32,),
+                  SizedBox(width: 10,),
+                  Text(
+                    'Our Team',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            StaffList(staffList: controller.staff),
+            const SizedBox(height: TSizes.spaceBtwSections),
+
           ],
         ),
       ),

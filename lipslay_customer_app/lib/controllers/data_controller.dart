@@ -49,6 +49,7 @@ class DataController extends GetxController {
       offerProducts = (jsonData['services'] as List<dynamic>)
           .map<OfferProduct>((item) {
             if (featuredServices.contains(item['id'].toString())) {
+              item['image'] = ApiUrls.serviceImagesURL+item['image'];
               return OfferProduct.fromJson(item);
             } else {
               return OfferProduct(
@@ -65,7 +66,6 @@ class DataController extends GetxController {
           })
           .where((element) => element.image.isNotEmpty)
           .toList();
-
       staff = (jsonData['staffs'] as List<dynamic>).map<Staff>((item) {
         return Staff.fromJson(item);
       }).toList();

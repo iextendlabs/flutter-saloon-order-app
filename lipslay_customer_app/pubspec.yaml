@@ -16,6 +16,7 @@ dependencies:
   shared_preferences: ^2.2.3
   cached_network_image: ^3.3.1
   sizer: ^2.0.15
+  auto_size_text: ^3.0.0
 
   # Icons
   cupertino_icons: ^1.0.8

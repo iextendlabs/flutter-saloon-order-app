@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../models/category.dart';
 import '../../utils/constants/sizes.dart';
+
 class CategoryItem extends StatelessWidget {
   final Category category;
 
@@ -10,25 +12,24 @@ class CategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         ClipOval(
           child: Image.network(
             category.icon,
-            width: 100,
-            height: 100,
+            width: SizerUtil.deviceType == DeviceType.mobile ? 30.w : 25.w,
             fit: BoxFit.cover,
           ),
         ),
-        SizedBox(height: TSizes.sm),
+        const SizedBox(height: TSizes.sm),
         SizedBox(
-          width: 120,
+          width: 40.w,
           child: Text(
             category.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: TSizes.fontSizeMd,
             ),
           ),
