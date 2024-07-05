@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lipslay_customer_app/common/widgets/rating_stars.dart';
+import 'package:lipslay_customer_app/common/widgets/wishlisht_button.dart';
 
 import '../../models/offer_product.dart';
 import '../../utils/constants/colors.dart';
@@ -19,7 +20,7 @@ class ServiceItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 290,
+        width: 260,
         height: 320,
         decoration: BoxDecoration(
           color: TColors.white,
@@ -70,11 +71,11 @@ class ServiceItem extends StatelessWidget {
                 children: [
                   Text(
                     'AED ${product.price}',
-                    style: TextStyle(fontSize: TSizes.fontSizeMd),
+                    style: TextStyle(fontSize: TSizes.fontSizeSm),
                   ),
                   Text(
                     product.duration,
-                    style: TextStyle(fontSize: TSizes.fontSizeMd),
+                    style: TextStyle(fontSize: TSizes.fontSizeSm),
                   ),
                 ],
               ),
@@ -85,13 +86,9 @@ class ServiceItem extends StatelessWidget {
                     text: 'Book Now',
                     onPressed: () {},
                     width: 140,
-                    height: 50,
+                    height: 45,
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.favorite_outline_rounded),
-                    iconSize: 32,
-                  ),
+                  WishlistButton(),
                 ],
               ),
             ],

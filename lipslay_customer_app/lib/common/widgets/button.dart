@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lipslay_customer_app/utils/constants/colors.dart';
 import 'package:lipslay_customer_app/utils/constants/sizes.dart';
 
@@ -29,7 +30,9 @@ class TButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(TSizes.borderRadiusSm),
           ),
         ),
+
         child: Text(
+          textScaler: TextScaler.noScaling,
           text,
           textAlign: TextAlign.center,
           style: const TextStyle(fontWeight: FontWeight.bold,

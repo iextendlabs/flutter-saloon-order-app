@@ -20,14 +20,17 @@ class TSizes {
   static const double fontSizeXlg = 24.0;
 
 
+  // Search bar size
+  static const double searchBarHeight = 50.0;
+
   // Button sizes
-  static const double buttonHeight = 60.0;
+  static const double buttonHeight = 50.0;
   static const double buttonRadius = 8.0;
   static const double buttonWidth = 120.0;
   static const double buttonElevation = 4.0;
 
   // AppBar height
-  static const double appBarHeight = 10.0;
+  static const double appBarHeight = 70.0;
 
   // Image sizes
   static const double imageThumbSize = 80.0;
@@ -68,7 +71,7 @@ class TSizes {
   static const double loadingIndicatorSize = 36.0;
 
   // Grid view spacing
-  static const double gridViewSpacing = 14.0;
-  static const double gridTileSize = 170;
+  static const double gridViewSpacing = 12.0;
+  static const double gridTileSize = 180;
 
 }

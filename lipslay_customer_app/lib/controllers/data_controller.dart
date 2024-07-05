@@ -35,12 +35,17 @@ class DataController extends GetxController {
         return ApiUrls.baseUrl + 'slider-images/$imageName';
       }).toList();
 
+      images.add(images[0]);
+      images.add(images[0]);
+      images.add(images[0]);
+      images.add(images[0]);
+
       categories =
           (jsonData['categories'] as List<dynamic>).map<Category>((item) {
-            item['icon'] = ApiUrls.baseUrl+'service-category-icons/'+item['icon'];
-            return Category.fromJson(item);
+        item['icon'] =
+            ApiUrls.baseUrl + 'service-category-icons/' + item['icon'];
+        return Category.fromJson(item);
       }).toList();
-
       allServices =
           (jsonData['services'] as List<dynamic>).map<OfferProduct>((item) {
         return OfferProduct.fromJson(item);
@@ -49,7 +54,7 @@ class DataController extends GetxController {
       offerProducts = (jsonData['services'] as List<dynamic>)
           .map<OfferProduct>((item) {
             if (featuredServices.contains(item['id'].toString())) {
-              item['image'] = ApiUrls.serviceImagesURL+item['image'];
+              item['image'] = ApiUrls.serviceImagesURL + item['image'];
               return OfferProduct.fromJson(item);
             } else {
               return OfferProduct(

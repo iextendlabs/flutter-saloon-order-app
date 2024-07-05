@@ -14,6 +14,7 @@ import '../../common/components/services_offer.dart';
 import '../../common/components/statff_list.dart';
 import '../../common/widgets/button.dart';
 import '../../common/widgets/category_item.dart';
+import '../../common/widgets/custom_app_bar.dart';
 import '../../common/widgets/service_item.dart';
 import '../../controllers/data_controller.dart';
 import '../../models/staff.dart';
@@ -27,41 +28,14 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(TSizes.appBarHeight.h),
-        child: AppBar(
-          backgroundColor: TColors.primary,
-          flexibleSpace: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  TTexts.appBarTitle,
-                  style: TextStyle(fontSize: TSizes.fontSizeXlg),
-                ),
-                Text(
-                  TTexts.appBarDescription,
-                  style: TextStyle(fontSize: TSizes.fontSizeMd),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
-          ),
-          actions: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.notifications_active_outlined,size: 34,)),
-            SizedBox(width: 12,)
-          ],
-        ),
-      ),
+      appBar: const CustomAppBar(title: TTexts.appBarTitle,description: TTexts.appBarDescription),
       body: SingleChildScrollView(
         child: Column(
           children: [
             CarouselSliderWidget(
-              controller: controller,
+              images: controller.images,
             ),
-            const SizedBox(height: TSizes.spaceBtwSections),
+            const SizedBox(height: TSizes.spaceBtwItems),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
               child: TButton(
@@ -77,12 +51,12 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(Icons.local_offer, size: 32,),
-                  SizedBox(width: 10,),
+                  Icon(Icons.local_offer, size: 26,),
+                  SizedBox(width: 8,),
                   Text(
                     'Offers',
                     textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: TSizes.fontSizeXlg, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -94,12 +68,12 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Icon(Icons.people, size: 32,),
-                  SizedBox(width: 10,),
+                  Icon(Icons.people, size: 26,),
+                  SizedBox(width: 8,),
                   Text(
                     'Our Team',
                     textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: TSizes.fontSizeXlg, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lipslay_customer_app/screens/booking/booking_screen.dart';
 import 'package:lipslay_customer_app/screens/home/home_screen.dart';
+import 'package:lipslay_customer_app/screens/menu/menu_screen.dart';
+import 'package:lipslay_customer_app/screens/search/search_screen.dart';
+import 'package:lipslay_customer_app/screens/wishlist/wishlist_screen.dart';
 import 'package:lipslay_customer_app/utils/constants/colors.dart';
 import 'package:lipslay_customer_app/utils/constants/text_strings.dart';
 
@@ -26,7 +30,7 @@ class NavigationMenu extends StatelessWidget {
             _buildBottomNavigationBarItem(Icons.search_rounded, 'Search'),
             _buildBottomNavigationBarItem(Icons.shopping_cart_rounded, 'Cart'),
             _buildBottomNavigationBarItem(Icons.favorite_rounded, 'Wishlist',),
-            _buildBottomNavigationBarItem(Icons.calendar_month_rounded, 'Calendar'),
+            _buildBottomNavigationBarItem(Icons.calendar_month_rounded, 'Booking'),
             _buildBottomNavigationBarItem(Icons.menu_rounded, 'Menu'),
           ],
         ),
@@ -48,21 +52,15 @@ class NavigationController extends GetxController {
 
   final screens = [
     HomeScreen(),
-    Container(
-      color: Colors.red,
-    ),
-    Container(
-      color: Colors.blue,
-    ),
+    const SearchScreen(),
     Container(
       color: Colors.purple,
     ),
-    Container(
-      color: Colors.blue,
-    ),
-    Container(
-      color: Colors.purple,
-    )
+    const WishlistScreen(),
+
+    const BookingScreen(),
+    MenuScreen(),
+
   ];
   void onItemTapped(int index) {
     selectedIndex.value = index;

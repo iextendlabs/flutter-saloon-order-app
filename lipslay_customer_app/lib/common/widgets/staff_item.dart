@@ -16,7 +16,7 @@ class StaffItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 180.0,
+        width: 170.0,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
           color: Colors.white,
@@ -58,7 +58,7 @@ class StaffItem extends StatelessWidget {
               staff.subTitle,
               maxLines: 1,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: TSizes.fontSizeMd),
+              style: const TextStyle(fontSize: TSizes.fontSizeSm),
             ),
             staff.charges.isNotEmpty && staff.charges != '0'
                 ? AutoSizeText(

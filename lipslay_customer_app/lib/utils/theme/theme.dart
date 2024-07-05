@@ -9,5 +9,6 @@ class TAppTheme {
     disabledColor: TColors.gray,
     primaryColor: TColors.pink,
     scaffoldBackgroundColor: TColors.primary,
+
   );
 }
