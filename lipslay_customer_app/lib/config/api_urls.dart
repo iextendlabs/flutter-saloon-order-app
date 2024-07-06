@@ -1,6 +1,9 @@
 class ApiUrls {
   static const String baseUrl = 'https://lipslay.com/';
   static const String appDataUrl = baseUrl + 'AppData.json';
+  static const String privacyPolicyUrl  = baseUrl+'privacyPolicy?app=true';
+  static const String termsConditionUrl  = baseUrl+"termsCondition?app=true";
+  static const String aboutUsUrl  = baseUrl+"aboutUs?app=true";
 
 
   // static const loginUrl = baseUrl + "api/customerLogin";

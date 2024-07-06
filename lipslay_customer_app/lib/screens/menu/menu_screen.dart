@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:lipslay_customer_app/common/widgets/custom_app_bar.dart';
+import 'package:lipslay_customer_app/config/api_urls.dart';
+import 'package:lipslay_customer_app/screens/auth/sign_in_screen.dart';
+import 'package:lipslay_customer_app/screens/auth/sign_up_screen.dart';
+import 'package:lipslay_customer_app/screens/webview/webview_screen.dart';
 import 'package:lipslay_customer_app/utils/constants/text_strings.dart';
 
 import '../../common/widgets/menu_button.dart';
@@ -28,7 +32,9 @@ class MenuScreen extends StatelessWidget {
               children: [
                 MenuButton(
                   text: 'Profile',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => SignInScreen());
+                  },
                 ),
                 const Divider(height: 0, color: TColors.gray),
                 MenuButton(
@@ -38,17 +44,28 @@ class MenuScreen extends StatelessWidget {
                 const Divider(height: 0, color: TColors.gray),
                 MenuButton(
                   text: 'Terms & Condition',
-                  onPressed: () {},
-                ),
-                const Divider(height: 0, color: TColors.gray),
-                MenuButton(
-                  text: 'About Us',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => WebviewScreen(
+                        title: 'Terms & Condition',
+                        url: ApiUrls.termsConditionUrl));
+                  },
                 ),
                 const Divider(height: 0, color: TColors.gray),
                 MenuButton(
                   text: 'Privacy Policy',
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => WebviewScreen(
+                        title: 'Privacy Policy',
+                        url: ApiUrls.privacyPolicyUrl));
+                  },
+                ),
+                const Divider(height: 0, color: TColors.gray),
+                MenuButton(
+                  text: 'About Us',
+                  onPressed: () {
+                    Get.to(() => WebviewScreen(
+                        title: 'About Us', url: ApiUrls.aboutUsUrl));
+                  },
                 ),
                 const Divider(height: 0, color: TColors.gray),
                 SizedBox(
@@ -84,7 +101,8 @@ class MenuScreen extends StatelessWidget {
                     return Column(
                       children: [
                         MenuButton(
-                            text: controller.categories[index].title, onPressed: () {}),
+                            text: controller.categories[index].title,
+                            onPressed: () {}),
                         const Divider(height: 0, color: TColors.gray),
                       ],
                     );
