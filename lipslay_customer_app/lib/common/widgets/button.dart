@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lipslay_customer_app/utils/constants/colors.dart';
@@ -8,13 +9,13 @@ class TButton extends StatelessWidget {
       {super.key,
       required this.text,
       required this.onPressed,
-      this.width = double.infinity, this.height = TSizes.buttonHeight});
+      this.width = double.infinity, this.height = TSizes.buttonHeight, this.buttonColor = TColors.pinkAccent});
 
   final String text;
   final double? width;
   final double? height;
 
-  final Color buttonColor = TColors.pinkAccent;
+  final Color buttonColor;
   final void Function() onPressed;
 
   @override
@@ -31,12 +32,12 @@ class TButton extends StatelessWidget {
           ),
         ),
 
-        child: Text(
-          textScaler: TextScaler.noScaling,
+        child: AutoSizeText(
+          maxLines: 1,
           text,
           textAlign: TextAlign.center,
           style: const TextStyle(fontWeight: FontWeight.bold,
-              fontSize: TSizes.fontSizeLg, color: TColors.white),
+              fontSize: TSizes.fontSizeMd, color: TColors.white),
         ),
       ),
     );

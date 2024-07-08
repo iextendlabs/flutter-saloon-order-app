@@ -52,7 +52,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     HomeScreen(),
-    const SearchScreen(),
+    SearchScreen(),
     Container(
       color: Colors.purple,
     ),

@@ -4,6 +4,8 @@ class ApiUrls {
   static const String privacyPolicyUrl  = baseUrl+'privacyPolicy?app=true';
   static const String termsConditionUrl  = baseUrl+"termsCondition?app=true";
   static const String aboutUsUrl  = baseUrl+"aboutUs?app=true";
+  static const subCategoriesUrl = baseUrl + "api/subCategories?id=";
+  static const serviceDetailUrl = baseUrl + "api/getServiceDetails?service_id=";
 
 
   // static const loginUrl = baseUrl + "api/customerLogin";

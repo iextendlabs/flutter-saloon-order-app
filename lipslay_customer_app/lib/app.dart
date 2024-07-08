@@ -1,6 +1,7 @@
 import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lipslay_customer_app/screens/home/product_detail_screen.dart';
 import 'package:lipslay_customer_app/utils/theme/theme.dart';
 import 'package:sizer/sizer.dart';
 import  'package:fl_country_code_picker/fl_country_code_picker.dart' as flc;

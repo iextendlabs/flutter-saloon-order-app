@@ -14,13 +14,14 @@ dependencies:
   http: ^1.2.1
   carousel_slider: ^4.2.1
   shared_preferences: ^2.2.3
-  cached_network_image: ^3.3.1
   sizer: ^2.0.15
   auto_size_text: ^3.0.0
   smooth_page_indicator: ^1.1.0
   fl_country_code_picker: ^0.1.9+1
   webview_flutter: ^4.8.0
-  
+  flutter_spinkit: ^5.2.1
+  cached_network_image: ^3.3.1
+  flutter_widget_from_html: ^0.15.1
   # Icons
   cupertino_icons: ^1.0.8
 

@@ -26,7 +26,7 @@ class CategoriesGrid extends StatelessWidget {
               : 4, // Maximum 3 columns5
           mainAxisSpacing: TSizes.gridViewSpacing,
           crossAxisSpacing: TSizes.gridViewSpacing,
-          mainAxisExtent: 22.h,
+          mainAxisExtent: 150,
         ),
         itemCount: categories.length,
         itemBuilder: (context, index) {

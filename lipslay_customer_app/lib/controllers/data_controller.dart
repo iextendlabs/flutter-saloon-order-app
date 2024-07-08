@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:http/http.dart' as http;
@@ -35,11 +36,6 @@ class DataController extends GetxController {
         return ApiUrls.baseUrl + 'slider-images/$imageName';
       }).toList();
 
-      images.add(images[0]);
-      images.add(images[0]);
-      images.add(images[0]);
-      images.add(images[0]);
-
       categories =
           (jsonData['categories'] as List<dynamic>).map<Category>((item) {
         item['icon'] =
@@ -48,13 +44,13 @@ class DataController extends GetxController {
       }).toList();
       allServices =
           (jsonData['services'] as List<dynamic>).map<OfferProduct>((item) {
+        item['image'] = ApiUrls.serviceImagesURL + item['image'];
         return OfferProduct.fromJson(item);
       }).toList();
 
       offerProducts = (jsonData['services'] as List<dynamic>)
           .map<OfferProduct>((item) {
             if (featuredServices.contains(item['id'].toString())) {
-              item['image'] = ApiUrls.serviceImagesURL + item['image'];
               return OfferProduct.fromJson(item);
             } else {
               return OfferProduct(
@@ -95,5 +91,50 @@ class DataController extends GetxController {
     List<String> servicesJsonList =
         services.map((service) => jsonEncode(service.toJson())).toList();
     await prefs.setStringList('services', servicesJsonList);
+  }
+
+  Future<List<Category>> fetchSubCategories(int categoryId) async {
+    isLoading.value = true;
+    List<Category> subCategories = [];
+    final response = await http
+        .get(Uri.parse(ApiUrls.subCategoriesUrl + categoryId.toString()));
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body);
+
+      subCategories =
+          (jsonData['sub_categories'] as List<dynamic>).map<Category>((item) {
+        item['icon'] =
+            ApiUrls.baseUrl + 'service-category-icons/' + item['icon'];
+        return Category.fromJson(item);
+      }).toList();
+      isLoading.value = false;
+    } else {}
+    print(subCategories.length);
+    return subCategories;
+  }
+
+  List<OfferProduct> filterServicesByCategory(int categoryId) {
+    return allServices.where((service) {
+      return service.categoryId.contains(categoryId);
+    }).toList();
+  }
+  List<OfferProduct> filterServicesByName(String categoryName) {
+    categoryName = categoryName.trim();
+    if(categoryName.isEmpty) {
+      return [];
+    }
+    return allServices.where((service) {
+      return service.name.toLowerCase().contains(categoryName.toLowerCase());
+    }).toList();
+  }
+  Future<Map<String, dynamic>> fetchDataWithURL(String url) async {
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body) as Map<String, dynamic>;
+    } else {
+      return <String, dynamic>{};
+    }
   }
 }

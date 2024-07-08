@@ -15,6 +15,7 @@ import '../../common/components/statff_list.dart';
 import '../../common/widgets/button.dart';
 import '../../common/widgets/category_item.dart';
 import '../../common/widgets/custom_app_bar.dart';
+import '../../common/widgets/section_title.dart';
 import '../../common/widgets/service_item.dart';
 import '../../controllers/data_controller.dart';
 import '../../models/staff.dart';
@@ -46,38 +47,11 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwSections),
             CategoriesGrid(categories: controller.categories),
             const SizedBox(height: TSizes.spaceBtwItems),
-            const Padding(
-              padding: EdgeInsets.only(left: TSizes.lg),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(Icons.local_offer, size: 26,),
-                  SizedBox(width: 8,),
-                  Text(
-                    'Offers',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: TSizes.fontSizeXlg, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
+            const SectionTitle(title: 'Offers',showIcon: true,icon: Icons.local_offer,),
             ServicesOffer(products: controller.offerProducts),
             const SizedBox(height: TSizes.spaceBtwItems),
-            const Padding(
-              padding: EdgeInsets.only(left: TSizes.lg),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Icon(Icons.people, size: 26,),
-                  SizedBox(width: 8,),
-                  Text(
-                    'Our Team',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: TSizes.fontSizeXlg, fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            ),
+            const SectionTitle(title: 'Our Team',showIcon: true,icon: Icons.people,),
+
             StaffList(staffList: controller.staff),
             const SizedBox(height: TSizes.spaceBtwSections),
 

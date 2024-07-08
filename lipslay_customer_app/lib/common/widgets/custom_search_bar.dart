@@ -1,34 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-
-import '../../controllers/search_bar_controller.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/sizes.dart';
 
-class CustomSearchBar extends StatelessWidget {
+class CustomSearchBar extends StatefulWidget {
   final String hintText;
+  final Function(String) onChanged ;
+  CustomSearchBar({required this.hintText, required this.onChanged});
 
-  CustomSearchBar({required this.hintText});
+  @override
+  State<CustomSearchBar> createState() => _CustomSearchBarState();
+}
+
+class _CustomSearchBarState extends State<CustomSearchBar> {
+  String searchText='';
 
   @override
   Widget build(BuildContext context) {
-    final SearchBarController controller = Get.put(SearchBarController());
 
-    return Obx(() => Container(
+    return Container(
           height: TSizes.searchBarHeight,
           child: TextField(
             controller:
-                TextEditingController(text: controller.searchText.value),
-            onChanged: (value) => controller.searchText.value = value,
+                TextEditingController(text: searchText),
+            onChanged: (value) {
+              searchText= value;
+              widget.onChanged(value);
+            },
             decoration: InputDecoration(
-              hintText: hintText,
+              hintText: widget.hintText,
               hintStyle: const TextStyle(color: TColors.gray),
               prefixIcon: const Icon(Icons.search),
-              prefixIconColor:  controller.searchText.value.isNotEmpty ? TColors.black : TColors.gray,
-              suffixIcon: controller.searchText.value.isNotEmpty
+              prefixIconColor:  searchText.isNotEmpty ? TColors.black : TColors.gray,
+              suffixIcon: searchText.isNotEmpty
                   ? IconButton(
                       icon: const Icon(Icons.clear, color: Colors.black),
-                      onPressed: controller.clearSearch)
+                      onPressed: (){
+                        searchText = '';
+                        widget.onChanged('');
+                        setState(() {
+
+                        });
+                      })
                   : null,
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
@@ -41,11 +53,11 @@ class CustomSearchBar extends StatelessWidget {
               filled: true,
             ),
             style: TextStyle(
-                color: controller.searchText.value.isNotEmpty
+                color: searchText.isNotEmpty
                     ? TColors.black
                     : TColors.gray,
                 fontSize: TSizes.fontSizeMd),
           ),
-        ));
+        );
   }
 }

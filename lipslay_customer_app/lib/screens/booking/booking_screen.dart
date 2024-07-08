@@ -16,7 +16,7 @@ class BookingScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-             CustomSearchBar(hintText: TTexts.searchServicesHint),
+             CustomSearchBar(hintText: TTexts.searchServicesHint,onChanged: (value){},),
           ],
         ),
       ),

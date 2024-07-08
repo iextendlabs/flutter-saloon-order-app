@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lipslay_customer_app/common/widgets/rating_stars.dart';
 import 'package:lipslay_customer_app/common/widgets/wishlisht_button.dart';
+import 'package:lipslay_customer_app/screens/home/product_detail_screen.dart';
 
 import '../../models/offer_product.dart';
 import '../../utils/constants/colors.dart';
@@ -39,19 +41,25 @@ class ServiceItem extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                width: double.infinity,
-                height: 175,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-                  child: Image.network(
-                    product.image,
-                    // Use Image.network for direct URL
-                    fit: BoxFit.cover,
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => ProductDetailScreen(productId: product.id),
+                      preventDuplicates: false);
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 175,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
+                    child: Image.network(
+                      product.image,
+                      // Use Image.network for direct URL
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 3,
               ),
               Text(
@@ -59,12 +67,12 @@ class ServiceItem extends StatelessWidget {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.clip,
                 maxLines: 2,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: TSizes.fontSizeMd,
                     height: 1),
               ),
-              SizedBox(height: 3),
+              const SizedBox(height: 3),
               RatingStars(rating: product.rating),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,7 +93,7 @@ class ServiceItem extends StatelessWidget {
                   TButton(
                     text: 'Book Now',
                     onPressed: () {},
-                    width: 140,
+                    width: 120,
                     height: 45,
                   ),
                   WishlistButton(),

@@ -14,19 +14,20 @@ class ServicesOffer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 350,
-      child: ListView.builder(
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        // Set the scroll direction to horizontal
-        itemCount: products.length,
-        padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
-        itemBuilder: (context, index) {
-          return ServiceItem(product: products[index]);
-        },
-      ),
-    );
+    return products.isNotEmpty
+        ? SizedBox(
+            height: 350,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              // Set the scroll direction to horizontal
+              itemCount: products.length,
+              padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
+              itemBuilder: (context, index) {
+                return ServiceItem(product: products[index]);
+              },
+            ),
+          )
+        : SizedBox.shrink();
   }
 }
-
