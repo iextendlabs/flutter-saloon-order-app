@@ -22,7 +22,7 @@ class ServicesOffer extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               // Set the scroll direction to horizontal
               itemCount: products.length,
-              padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
+              padding: const EdgeInsets.symmetric(horizontal: TSizes.sm),
               itemBuilder: (context, index) {
                 return ServiceItem(product: products[index]);
               },

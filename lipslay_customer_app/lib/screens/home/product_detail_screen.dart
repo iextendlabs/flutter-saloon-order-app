@@ -10,8 +10,10 @@ import 'package:lipslay_customer_app/common/widgets/section_title.dart';
 import 'package:lipslay_customer_app/common/widgets/share_button.dart';
 import 'package:lipslay_customer_app/common/widgets/wishlisht_button.dart';
 import 'package:lipslay_customer_app/config/api_urls.dart';
+import 'package:lipslay_customer_app/models/offer_product.dart';
 import 'package:lipslay_customer_app/utils/constants/assets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import '../../common/components/services_offer.dart';
 import '../../controllers/data_controller.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/sizes.dart';
@@ -30,7 +32,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   final DataController _controller = Get.find<DataController>();
   late Map<String, dynamic> productDetail;
-  List<String> myArray = ["Apple", "Banana", "Cherry"];
+  List<OfferProduct> addOns = [];
+  List<OfferProduct> packages = [];
 
   @override
   void initState() {
@@ -39,8 +42,27 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Future<void> LoadData() async {
+    isLoading = true;
     productDetail = await _controller.fetchDataWithURL(
         ApiUrls.serviceDetailUrl + widget.productId.toString());
+    final addOnIds = productDetail['addONs']
+        .map((addOn) => addOn['add_on_id'].toString())
+        .toSet();
+
+    addOns = _controller.allServices
+        .where((service) => addOnIds.contains(service.id.toString()))
+        .toList();
+
+    final packagesIds = productDetail['package']
+        .map((addOn) => addOn['package_id'].toString())
+        .toSet();
+
+    packages = _controller.allServices
+        .where((service) => packagesIds.contains(service.id.toString()))
+        .toList();
+    print(addOns.length);
+    print(packages.length);
+
     isLoading = false;
     setState(() {});
   }
@@ -56,11 +78,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ? const LoadingSpinner()
           : SingleChildScrollView(
               physics: const ScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.all(TSizes.md),
-                child: Column(
-                  children: [
-                    ClipRRect(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
+                    child: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(TSizes.borderRadiusLg),
                       child: CustomImage(
@@ -69,8 +91,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         width: double.infinity,
                       ),
                     ),
-                    const SizedBox(height: TSizes.sm),
-                    Row(
+                  ),
+                  const SizedBox(height: TSizes.sm),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -85,7 +110,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             const SizedBox(width: 4),
                             Text(
                               productDetail['services']['duration'],
-                              style: const TextStyle(fontSize: TSizes.fontSizeLg),
+                              style:
+                                  const TextStyle(fontSize: TSizes.fontSizeLg),
                             ),
                             const SizedBox(width: TSizes.spaceBtwItems),
                             const ShareButton(),
@@ -93,37 +119,48 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             const WishlistButton()
                           ],
                         ),
-
                       ],
                     ),
-                    const SizedBox(height: TSizes.spaceBtwItems),
-                    const RatingStars(rating: 4.5, color: TColors.black),
-                    const SizedBox(height: TSizes.spaceBtwItems),
-                    TButton(
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  const RatingStars(rating: 4.5, color: TColors.black),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
+                    child: TButton(
                       text: 'Book Now',
                       onPressed: () {},
                     ),
-                    const SizedBox(height: TSizes.spaceBtwItems),
-                    const SectionTitle(
-                        title: 'Details',
-                        icon: Icons.description,
-                        showIcon: true),
-                    HtmlWidget(
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  const SectionTitle(
+                      title: 'Details',
+                      icon: Icons.description,
+                      showIcon: true),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
+                    child: HtmlWidget(
                       productDetail['services']['description'],
                     ),
-                    const SizedBox(height: 20),
-                    const SectionTitle(
-                        title: 'Frequently asked questions',
-                        icon: Icons.question_answer_outlined,
-                        showIcon: true),
-                    ListView.builder(
+                  ),
+                  const SizedBox(height: 20),
+                  productDetail['faqs'].length > 0
+                      ? const SectionTitle(
+                          title: 'Frequently asked questions',
+                          icon: Icons.question_answer_outlined,
+                          showIcon: true)
+                      : const SizedBox.shrink(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
+                    child: ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: productDetail['faqs'].length,
                       itemBuilder: (context, index) {
                         final item = productDetail['faqs'][index];
                         return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: TSizes.xs),
+                          padding:
+                              const EdgeInsets.symmetric(vertical: TSizes.xs),
                           child: ExpansionTile(
                             collapsedBackgroundColor: TColors.pinkAccent,
                             backgroundColor: TColors.pinkAccent,
@@ -147,9 +184,29 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                         );
                       },
-                    )
-                  ],
-                ),
+                    ),
+                  ),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  addOns.isNotEmpty
+                      ? const SectionTitle(
+                          title: 'Add-ons',
+                          icon: Icons.add_circle_outline,
+                          showIcon: true)
+                      : const SizedBox.shrink(),
+                  addOns.isNotEmpty
+                      ? ServicesOffer(products: addOns)
+                      : const SizedBox.shrink(),
+                  const SizedBox(height: TSizes.spaceBtwItems),
+                  packages.isNotEmpty
+                      ? const SectionTitle(
+                          title: 'Packages',
+                          icon: Icons.card_giftcard,
+                          showIcon: true)
+                      : const SizedBox.shrink(),
+                  packages.isNotEmpty
+                      ? ServicesOffer(products: packages)
+                      : const SizedBox.shrink(),
+                ],
               ),
             ),
     );
@@ -161,17 +218,20 @@ class CustomImage extends StatelessWidget {
       {super.key,
       required this.url,
       this.width = double.infinity,
-      this.fit = BoxFit.cover});
+      this.fit = BoxFit.cover,  this.height});
 
   final String url;
-  final double width;
-  final BoxFit fit;
+  final double? width;
+  final double? height;
 
+  final BoxFit fit;
+bool hasHeight = false;
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       fit: fit,
       width: width,
+      height: height,
       imageUrl: url,
       placeholder: (context, url) =>
           const Image(image: AssetImage(Assets.placeholder), fit: BoxFit.cover),
