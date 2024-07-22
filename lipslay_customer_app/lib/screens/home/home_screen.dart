@@ -19,6 +19,7 @@ import '../../common/widgets/section_title.dart';
 import '../../common/widgets/service_item.dart';
 import '../../controllers/data_controller.dart';
 import '../../models/staff.dart';
+import '../../navigation_menu.dart';
 import '../../utils/constants/colors.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -41,7 +42,10 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
               child: TButton(
                 text: TTexts.checkBooking,
-                onPressed: () {},
+                onPressed: () {
+                  final controller = Get.find<NavigationController>();
+                  controller.onItemTapped(4);
+                },
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwSections),

@@ -10,6 +10,7 @@ import 'package:lipslay_customer_app/utils/constants/text_strings.dart';
 
 import '../../common/widgets/menu_button.dart';
 import '../../controllers/data_controller.dart';
+import '../../navigation_menu.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/sizes.dart';
 
@@ -39,7 +40,10 @@ class MenuScreen extends StatelessWidget {
                 const Divider(height: 0, color: TColors.gray),
                 MenuButton(
                   text: 'My Bookings',
-                  onPressed: () {},
+                  onPressed: () {
+                    final controller = Get.find<NavigationController>();
+controller.onItemTapped(4);
+                  },
                 ),
                 const Divider(height: 0, color: TColors.gray),
                 MenuButton(

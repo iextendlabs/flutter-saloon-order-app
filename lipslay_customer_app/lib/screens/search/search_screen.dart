@@ -18,10 +18,18 @@ class SearchScreen extends StatefulWidget {
   @override
   State<SearchScreen> createState() => _SearchScreenState();
   final DataController _controller = Get.find<DataController>();
-  List<OfferProduct> searchedProducts = [];
+  RxList<OfferProduct> searchedProducts = <OfferProduct>[].obs;
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  Rx<String> searchedText=''.obs;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.searchedProducts.clear();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,15 +45,16 @@ class _SearchScreenState extends State<SearchScreen> {
                 hintText: TTexts.searchServicesHint,
                 onChanged: (value) {
                   if (value.length > 2) {
-                    widget.searchedProducts =
+                    widget.searchedProducts.value =
                         widget._controller.filterServicesByName(value);
-                    setState(() {});
+                  } else {
+                    widget.searchedProducts.clear();
                   }
                 },
               ),
             ),
             const SizedBox(height: TSizes.spaceBtwSections),
-            ServicesGrid(products: widget.searchedProducts),
+            Obx(()=>ServicesGrid(products: widget.searchedProducts.toList())),
           ],
         ),
       ),

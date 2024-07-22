@@ -1,10 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lipslay_customer_app/common/widgets/custom_image.dart';
 import 'package:lipslay_customer_app/common/widgets/rating_stars.dart';
 import 'package:lipslay_customer_app/common/widgets/wishlisht_button.dart';
+import 'package:lipslay_customer_app/screens/cart/add_to_cart_screen.dart';
 import 'package:lipslay_customer_app/screens/home/product_detail_screen.dart';
 
 import '../../models/offer_product.dart';
+import '../../utils/constants/assets.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/sizes.dart';
 import 'button.dart';
@@ -48,13 +52,11 @@ class ServiceItem extends StatelessWidget {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 175,
+                  height: 170,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-                    child: Image.network(
-                      product.image,
-                      // Use Image.network for direct URL
-                      fit: BoxFit.cover,
+                    child: CustomImage(
+                      url: product.image,
                     ),
                   ),
                 ),
@@ -92,8 +94,10 @@ class ServiceItem extends StatelessWidget {
                 children: [
                   TButton(
                     text: 'Book Now',
-                    onPressed: () {},
-                    width: 120,
+                    onPressed: () {
+                      Get.to(() => AddToCartScreen());
+                    },
+                    width: 110,
                     height: 45,
                   ),
                   WishlistButton(),

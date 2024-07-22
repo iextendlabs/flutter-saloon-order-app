@@ -117,7 +117,7 @@ class DataController extends GetxController {
   List<OfferProduct> filterServicesByCategory(int categoryId) {
     return allServices.where((service) {
       return service.categoryId.contains(categoryId);
-    }).toList();
+    }).take(5).toList();
   }
   List<OfferProduct> filterServicesByName(String categoryName) {
     categoryName = categoryName.trim();
@@ -126,7 +126,7 @@ class DataController extends GetxController {
     }
     return allServices.where((service) {
       return service.name.toLowerCase().contains(categoryName.toLowerCase());
-    }).toList();
+    }).take(5).toList();
   }
   Future<Map<String, dynamic>> fetchDataWithURL(String url) async {
     final response = await http.get(Uri.parse(url));

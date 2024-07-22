@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:lipslay_customer_app/common/widgets/custom_image.dart';
 import 'package:lipslay_customer_app/screens/home/category_detail_screen.dart';
 import 'package:lipslay_customer_app/screens/search/search_screen.dart';
 import 'package:sizer/sizer.dart';
@@ -18,9 +19,8 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() =>CategoryDetailScreen(category: category),
-            preventDuplicates: false
-        );
+        Get.to(() => CategoryDetailScreen(category: category),
+            preventDuplicates: false);
       },
       child: Container(
         // color: Colors.red,
@@ -28,11 +28,10 @@ class CategoryItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ClipOval(
-              child: Image.network(
-                category.icon,
+              child: CustomImage(
+                url: category.icon,
                 width: 110,
                 height: 110,
-                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(

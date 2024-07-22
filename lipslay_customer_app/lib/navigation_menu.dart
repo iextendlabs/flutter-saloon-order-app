@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lipslay_customer_app/screens/booking/booking_screen.dart';
+import 'package:lipslay_customer_app/screens/cart/add_to_cart_screen.dart';
+import 'package:lipslay_customer_app/screens/cart/cart_screen.dart';
+import 'package:lipslay_customer_app/screens/cart/checkout_screen.dart';
 import 'package:lipslay_customer_app/screens/home/home_screen.dart';
 import 'package:lipslay_customer_app/screens/menu/menu_screen.dart';
 import 'package:lipslay_customer_app/screens/search/search_screen.dart';
@@ -53,9 +56,7 @@ class NavigationController extends GetxController {
   final screens = [
     HomeScreen(),
     SearchScreen(),
-    Container(
-      color: Colors.purple,
-    ),
+   ShoppingCartScreen(),
     const WishlistScreen(),
 
     const BookingScreen(),

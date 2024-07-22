@@ -14,9 +14,11 @@ import 'package:lipslay_customer_app/models/offer_product.dart';
 import 'package:lipslay_customer_app/utils/constants/assets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../../common/components/services_offer.dart';
+import '../../common/widgets/custom_image.dart';
 import '../../controllers/data_controller.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/sizes.dart';
+import '../cart/add_to_cart_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, this.productId});
@@ -129,7 +131,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: TSizes.md),
                     child: TButton(
                       text: 'Book Now',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(()=>AddToCartScreen());
+
+                      },
                     ),
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems),
@@ -209,34 +214,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ],
               ),
             ),
-    );
-  }
-}
-
-class CustomImage extends StatelessWidget {
-  CustomImage(
-      {super.key,
-      required this.url,
-      this.width = double.infinity,
-      this.fit = BoxFit.cover,  this.height});
-
-  final String url;
-  final double? width;
-  final double? height;
-
-  final BoxFit fit;
-bool hasHeight = false;
-  @override
-  Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      fit: fit,
-      width: width,
-      height: height,
-      imageUrl: url,
-      placeholder: (context, url) =>
-          const Image(image: AssetImage(Assets.placeholder), fit: BoxFit.cover),
-      errorWidget: (context, url, error) =>
-          const Image(image: AssetImage(Assets.placeholder), fit: BoxFit.cover),
     );
   }
 }

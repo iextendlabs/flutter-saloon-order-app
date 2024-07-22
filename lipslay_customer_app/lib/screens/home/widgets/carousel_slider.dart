@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/instance_manager.dart';
+import 'package:lipslay_customer_app/common/widgets/custom_image.dart';
 import 'package:lipslay_customer_app/controllers/data_controller.dart';
 import 'package:lipslay_customer_app/utils/constants/sizes.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -48,9 +49,8 @@ class _CarouselSliderWidgetState extends State<CarouselSliderWidget> {
                   width: MediaQuery.of(context).size.width,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(TSizes.borderRadiusMd),
-                    child: Image.network(
-                      imageUrl, // Use Image.network for direct URL
-                      fit: BoxFit.cover,
+                    child: CustomImage(
+                      url: imageUrl,
                     ),
                   ),
                 );

@@ -7,9 +7,13 @@ class TTexts{
   static const String appBarWishlistScreenDescription = 'Live your best life';
   static const String appBarMenuScreenTitle = 'Menu';
   static const String appBarMenuScreenDescription= '';
+  static const String appBarShoppingCartScreenTitle = 'Shopping Cart';
+  static const String appBarShoppingCartScreenDescription= '';
+  static const String appBarNotificationScreenTitle = 'Notifications';
 
   static const String searchServicesHint = 'Search Services';
 
 
   static const String checkBooking = 'Check Booking';
+
 }

@@ -10,7 +10,7 @@ class BookingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-          title: TTexts.appBarSearchScreenTitle,
+          title: 'Booking',
           description: TTexts.appBarSearchScreenDescription),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -5,6 +5,7 @@ import 'package:lipslay_customer_app/common/widgets/rating_stars.dart';
 import '../../config/api_urls.dart';
 import '../../models/staff.dart';
 import '../../utils/constants/sizes.dart';
+import 'custom_image.dart';
 
 class StaffItem extends StatelessWidget {
   const StaffItem({super.key, required this.staff});
@@ -32,19 +33,13 @@ class StaffItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              margin: const EdgeInsets.all(10.0),
-              width: 130.0,
-              height: 130.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage(
-                      '${ApiUrls.baseUrl}staff-images/${staff.imageUrl}'),
-                  // Use NetworkImage for network URLs
-                  fit: BoxFit.cover,
-                ),
-              ),
+            SizedBox(height: TSizes.sm),
+            ClipRRect(
+              borderRadius:BorderRadius.circular(100),
+              child: CustomImage(
+                  width: 130,
+                  height: 130,
+                  url: '${ApiUrls.baseUrl}staff-images/${staff.imageUrl}'),
             ),
             Text(
               staff.name,

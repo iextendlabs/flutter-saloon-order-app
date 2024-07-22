@@ -118,6 +118,7 @@ class SignUpScreen extends StatelessWidget {
                       validator: (value) => signUpController.validateName(value!),
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Obx(
                           () => Checkbox(
@@ -128,26 +129,41 @@ class SignUpScreen extends StatelessWidget {
                             },
                           ),
                         ),
-                        const Text('I agree to '),
-                        GestureDetector(
-                          onTap: () {},
-                          child: const Text(
-                            'Terms and Conditions',
-                            style: TextStyle(
-                              color: TColors.blue,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Text('I agree to '),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: const Text(
+                                    'Terms and Conditions',
+                                    style: TextStyle(
+                                      color: TColors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
+                            Row(
+                              children: [
+                                const Text(' and '),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: const Text(
+                                    'Privacy Policy',
+                                    style: TextStyle(
+                                      color: TColors.blue,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                        const Text(' and '),
-                        GestureDetector(
-                          onTap: () {},
-                          child: const Text(
-                            'Privacy Policy',
-                            style: TextStyle(
-                              color: TColors.blue,
-                            ),
-                          ),
-                        ),
+
+
                       ],
                     ),
                     const SizedBox(height: 10),
